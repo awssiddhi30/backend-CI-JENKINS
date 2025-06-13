@@ -6,7 +6,7 @@ pipeline{
         appVersion = ''
         project = 'expense'
         environment = 'backend'
-        ACC_ID = '435238037339'
+        ACC_ID = 435238037339
 
     }
     options{
