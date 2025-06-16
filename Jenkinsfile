@@ -51,4 +51,17 @@ pipeline{
             }
         }
     }
+    post{
+        always{
+            echo "say hello always"
+            deleteDir()
+        }
+        success{
+            echo "say hello in success"
+        }
+        failure{
+            echo "say hello in failure"
+        }
+       
+    }
 }
