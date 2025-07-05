@@ -14,6 +14,9 @@ pipeline{
         disableConcurrentBuilds()
 
     }
+    parameters{
+        booleanParam(name: 'deploy', defaultValue: false, description: 'Toggle this value')
+    }
     stages{
         stage('read version'){
             steps{
@@ -48,6 +51,14 @@ pipeline{
                     }
                   
                 }
+            }
+        }
+        stage('Trigger Deploy'){
+            when { 
+                expression { params.deploy }
+            }
+            steps{
+                build job: 'backend-cd', parameters: [string(name: 'version', value: "${appVersion}")], wait: true
             }
         }
     }
