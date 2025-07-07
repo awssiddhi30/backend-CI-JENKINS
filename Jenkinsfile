@@ -56,29 +56,29 @@ pipeline{
         //       }
         //     }
         // } 
-        stage('build image'){
-            steps{
-                script{
-                    withAWS(region: 'us-east-1', credentials: 'aws-creds'){
-                    sh """
-                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com
-                    docker build -t ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${project}/${environment}:${appVersion} .
-                    docker push ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${project}/${environment}:${appVersion}
+        // stage('build image'){
+        //     steps{
+        //         script{
+        //             withAWS(region: 'us-east-1', credentials: 'aws-creds'){
+        //             sh """
+        //             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com
+        //             docker build -t ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${project}/${environment}:${appVersion} .
+        //             docker push ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${project}/${environment}:${appVersion}
 
-                    """
-                    }
+        //             """
+        //             }
                   
-                }
-            }
-        }
-        stage('Trigger Deploy'){
-            when { 
-                expression { params.deploy }
-            }
-            steps{
-                build job: 'backend-cd', parameters: [string(name: 'version', value: "${appVersion}")], wait: true
-            }
-        }
+        //         }
+        //     }
+        // }
+        // stage('Trigger Deploy'){
+        //     when { 
+        //         expression { params.deploy }
+        //     }
+        //     steps{
+        //         build job: 'backend-cd', parameters: [string(name: 'version', value: "${appVersion}")], wait: true
+        //     }
+        // }
     }
     post{
         always{
